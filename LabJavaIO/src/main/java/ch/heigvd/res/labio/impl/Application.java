@@ -89,7 +89,7 @@ public class Application implements IApplication {
        * one method provided by this class, which is responsible for storing the content of the
        * quote in a text file (and for generating the directories based on the tags).
        */
-      storeQuote(quote, "quote-" + quote.getValue().getId() + ".utf8");
+      storeQuote(quote, "quote-" + (i+1) + ".utf8");
 
       LOG.info("Received a new joke with " + quote.getTags().size() + " tags.");
       for (String tag : quote.getTags()) {
@@ -124,22 +124,26 @@ public class Application implements IApplication {
    * @throws IOException 
    */
   void storeQuote(Quote quote, String filename) throws IOException {
-    String chemin = WORKSPACE_DIRECTORY;
+    String path = WORKSPACE_DIRECTORY;
 
+    //Récupère le chemin
     for(String tag : quote.getTags()){
-      chemin += '/' + tag;
+      path += '/' + tag;
     }
 
-    File fichier = new File(chemin);
-    fichier.mkdirs();
+    //Crée les dossiers
+    File file = new File(path);
+    file.mkdirs();
 
-    fichier = new File(chemin + '/' + filename);
-    fichier.createNewFile();
+    //Crée le fichier
+    file = new File(path + '/' + filename);
+    file.createNewFile();
 
-    OutputStreamWriter ecriture = new OutputStreamWriter(new FileOutputStream(fichier), "UTF-8");
-    ecriture.write(quote.getQuote());
-    //ecriture.flush();
-    ecriture.close();
+    //Écriture
+    OutputStreamWriter writeFile = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+    writeFile.write(quote.getQuote());
+    writeFile.flush();
+    writeFile.close();
   }
   
   /**
