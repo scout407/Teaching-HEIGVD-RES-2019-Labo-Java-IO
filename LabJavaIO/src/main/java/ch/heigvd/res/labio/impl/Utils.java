@@ -36,7 +36,7 @@ public class Utils {
         return nextLine;
       }
     }
-    
+
     nextLine[0] = "";
     nextLine[1] = lines;
     return nextLine;
